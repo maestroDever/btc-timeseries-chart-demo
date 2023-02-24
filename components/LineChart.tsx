@@ -9,7 +9,8 @@ import {
   Title,
   Tooltip,
   Legend,
-  TimeScale
+  TimeScale,
+  TimeUnit
 } from "chart.js";
 import { BTC_DATA, Field } from "../types";
 
@@ -27,13 +28,14 @@ ChartJS.register(
 type Props = {
   data: BTC_DATA[];
   fields: Field[];
+  unit: string;
 };
 
 // some random colors
 const colors = ["#27ae60", "#2980b9", "#9b59b6", "#e74c3c", "#f1c40f", "#95a5a6"];
 
 const LineChart = (props: Props) => {
-  const { data, fields } = props;
+  const { data, fields, unit } = props;
 
   const labels = data.map((d) => d[Field.TIME]);
   const datasets = fields.slice(1).map((field, index) => ({
@@ -63,12 +65,13 @@ const LineChart = (props: Props) => {
       x: {
         type: "time" as const,
         time: {
-          unit: 'year' as const,
+          unit: unit as TimeUnit,
           tooltipFormat:'MM/dd/yyyy',
         },
+        bounds: 'ticks' as const,
         min: new Date(data[0][Field.TIME]).valueOf(),
         max: new Date(data[data.length - 1][Field.TIME]).valueOf(),
-      }
+      },
     }
   };
 

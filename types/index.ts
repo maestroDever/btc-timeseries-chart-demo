@@ -1,3 +1,5 @@
+import { TimeUnit } from "chart.js";
+
 export enum Field {
   TIME = "Time",
   "OVER 1k" = "BTC / Addr Cnt of Bal ≥ $1K",
@@ -8,3 +10,5 @@ export enum Field {
 }
 
 export type BTC_DATA = Record<Field, string | number>;
+
+export type FilterOption = { label: string; range: { min: Date; max: Date }; timeUnit: TimeUnit };
