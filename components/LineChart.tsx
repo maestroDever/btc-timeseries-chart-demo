@@ -1,5 +1,4 @@
 import { Line } from "react-chartjs-2";
-import 'chartjs-adapter-date-fns'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,7 +11,10 @@ import {
   TimeScale,
   TimeUnit
 } from "chart.js";
-import { BTC_DATA, Field } from "../types";
+import "chartjs-adapter-date-fns";
+
+import { BTC_DATA, Field } from "../utils/types";
+import { colors } from "../utils/constants";
 
 ChartJS.register(
   CategoryScale,
@@ -30,9 +32,6 @@ type Props = {
   fields: Field[];
   unit: string;
 };
-
-// some random colors
-const colors = ["#27ae60", "#2980b9", "#9b59b6", "#e74c3c", "#f1c40f", "#95a5a6"];
 
 const LineChart = (props: Props) => {
   const { data, fields, unit } = props;
@@ -53,7 +52,7 @@ const LineChart = (props: Props) => {
       },
       title: {
         display: false
-      },
+      }
     },
     normalized: true,
     datasets: {
@@ -66,12 +65,12 @@ const LineChart = (props: Props) => {
         type: "time" as const,
         time: {
           unit: unit as TimeUnit,
-          tooltipFormat:'MM/dd/yyyy',
+          tooltipFormat: "MM/dd/yyyy"
         },
-        bounds: 'ticks' as const,
+        bounds: "ticks" as const,
         min: new Date(data[0][Field.TIME]).valueOf(),
-        max: new Date(data[data.length - 1][Field.TIME]).valueOf(),
-      },
+        max: new Date(data[data.length - 1][Field.TIME]).valueOf()
+      }
     }
   };
 

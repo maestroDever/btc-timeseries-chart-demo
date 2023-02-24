@@ -2,27 +2,15 @@ import { useState, useMemo } from "react";
 import Head from "next/head";
 import { GetStaticProps } from "next";
 
-import Layout from "../components/layout";
-
 import Papa from "papaparse";
 import fs from "fs";
 import path from "path";
-import { BTC_DATA, Field, FilterOption } from "../types";
+
+import Layout from "../components/layout";
 import LineChart from "../components/LineChart";
 
-import { subMonths } from "date-fns";
-
-const filterOptions: FilterOption[] = [
-  { label: "ALL", range: { min: new Date(0), max: new Date() }, timeUnit: "year" },
-  {
-    label: "YTD",
-    range: { min: new Date(new Date().getFullYear(), 0, 1), max: new Date() },
-    timeUnit: new Date().getMonth() > 4 ? "month" : "day"
-  },
-  { label: "12M", range: { min: subMonths(new Date(), 12), max: new Date() }, timeUnit: "month" },
-  { label: "3M", range: { min: subMonths(new Date(), 3), max: new Date() }, timeUnit: "day" },
-  { label: "1M", range: { min: subMonths(new Date(), 1), max: new Date() }, timeUnit: "day" }
-];
+import { BTC_DATA, Field, FilterOption } from "../utils/types";
+import { filterOptions } from "../utils/constants";
 
 export default function Home(props: Papa.ParseResult<BTC_DATA>) {
   const {
