@@ -20,7 +20,7 @@ type BTCDATA = Record<Field, string | number>;
 export default function Home(props: Papa.ParseResult<BTCDATA>) {
   const {
     data,
-    meta: { fields = [] as Field[] }
+    meta: { fields = [] }
   } = props;
 
   return (
@@ -30,7 +30,6 @@ export default function Home(props: Papa.ParseResult<BTCDATA>) {
       </Head>
       <section>
         <div className="max-w-2xl mx-auto p-8 text-center">Chart goes here</div>
-        <strong>{data[1][Field["OVER 100k"]]}</strong>
         <table>
           <thead>
             <tr>
@@ -58,11 +57,10 @@ export const getStaticProps: GetStaticProps = async () => {
   try {
     const dataDirectory = path.join(process.cwd(), "data");
     const fullPath = path.join(dataDirectory, "Coin_Metrics_Network_Data_2023-02-02T14-32.csv");
-    const fileContent = fs.readFileSync(fullPath, "utf16le");
+    const fileContent = fs.readFileSync(fullPath, "utf8");
 
     const parseResult = Papa.parse<BTCDATA>(fileContent, {
       header: true,
-      delimiter: "\t",
       dynamicTyping: true
     });
     if (parseResult.errors.length) throw new Error("Error whiel parsing the csv file...");
